@@ -1,19 +1,25 @@
+# frozen_string_literal: true
+
+require_relative '../lib/connect_four'
+
 describe ConnectFour do
+
   describe '#verify_input' do
     subject(:game_input) { described_class.new }
+
     context 'when given a valid input' do
       valid_input = 3
-      results = game_input.verify_input(valid_input)
       it 'returns valid input' do
-        expect(results).to be(3)
+        results = game_input.verify_input(valid_input)
+        expect(results).to eq(3)
       end
     end
 
     context 'when given invalid input' do
       invalid_input = 'a'
-      results = game_input.verify_input(invalid_input)
       it 'returns nil' do
-        expect(results).to be(nil)
+        results = game_input.verify_input(invalid_input)
+        expect(results).to eq(nil)
       end
     end
   end
@@ -23,7 +29,7 @@ describe ConnectFour do
     context 'when user input a valid input' do
       before do
         valid_input = '3'
-        allow(game_input).to recieve(:gets).and_return(valid_input)
+        allow(game_input).to receive(:gets).and_return(valid_input)
       end
       it 'stops loop and return the same valid input' do
         error_message = 'Input error! Please enter a number between 1 and 7'
@@ -36,7 +42,7 @@ describe ConnectFour do
       before do
         invalid_input = 'a'
         valid_input = '3'
-        allow(game_input).to recieve(:gets).and_return(invalid_input, valid_input)
+        allow(game_input).to receive(:gets).and_return(invalid_input, valid_input)
       end
       it 'stops loop and return the same valid input' do
         error_message = 'Input error! Please enter a number between 1 and 7'
@@ -51,7 +57,7 @@ describe ConnectFour do
         invalid_input2 = 'asd'
         invalid_input3 = '11'
         valid_input = '3'
-        allow(game_input).to recieve(:gets).and_return(invalid_input1, invalid_input2, invalid_input3, valid_input)
+        allow(game_input).to receive(:gets).and_return(invalid_input1, invalid_input2, invalid_input3, valid_input)
       end
       it 'stops loop and return the same valid input' do
         error_message = 'Input error! Please enter a number between 1 and 7'
@@ -98,19 +104,19 @@ describe ConnectFour do
     subject(:game_column) { described_class.new }
     context 'check the availability of a given column' do
       player_input = 3
-      game_column.board.each_with_index do |row, idx|
-        row[player_input] = '1' if idx > 2 && idx < 5
-      end
-      results = game_column.check_column(player_input)
       it 'returns which row is good' do
+        game_column.board.board.each_with_index do |row, idx|
+          row[player_input] = '1' if idx > 2 && idx < 5
+        end
+        results = game_column.check_column(player_input)
         expect(results).to be(2)
       end
 
-      game_column.board.each_with_index do |row, idx|
-        row[player_input] = '1' if idx < 5
-      end
-      results = game_column.check_column(player_input)
       it 'returns nil' do
+        game_column.board.board.each_with_index do |row, idx|
+          row[player_input] = '1' if idx > 2 && idx < 5
+        end
+        results = game_column.check_column(player_input)
         expect(results).to be(nil)
       end
     end
@@ -124,14 +130,14 @@ describe ConnectFour do
         allow(game).to receive(:whos_turn).and_return('1')
         allow(game).to receive(:check_column).and_return(5)
         game.change_board(player_input)
-        expect(game.board[5][player_input]).to be('1')
+        expect(game.board.board[5][player_input]).to be('1')
       end
 
       it 'will change board in row 5, col 2 to 2' do
         allow(game).to receive(:whos_turn).and_return('2')
         allow(game).to receive(:check_column).and_return(5)
         game.change_board(player_input)
-        expect(game.board[5][player_input]).to be('2')
+        expect(game.board.board[5][player_input]).to be('2')
       end
     end
   end
