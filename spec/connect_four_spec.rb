@@ -60,4 +60,37 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#change_turn' do
+    subject(:game_turn) { described_class.new }
+    context 'everytime this method is called, the players switch turn' do
+      it 'changes turn from player 1 to player 2' do
+        last_turn = 'player 1'
+        current_turn = game_turn.change_turn(last_turn)
+        expect(current_turn).to be('player 2')
+      end
+
+      it 'changes turn from player 2 to palyer 1' do
+        last_turn = 'player 2'
+        current_turn = game_turn.change_turn(last_turn)
+        expect(current_turn).to be('player 1')
+      end
+    end
+  end
+
+  describe '#whos_turn' do
+    subject(:game_turn) { described_class.new }
+    context 'when called, returns who\'s turn it is' do
+      it 'returns player 1' do
+        current_turn = game_turn.whos_turn
+        expect(current_turn).to be('player 1')
+      end
+
+      it 'returns player 2' do
+        game_turn.change_turn('player 1')
+        current_turn = game_turn.whos_turn
+        expect(current_turn).to be('player 2')
+      end
+    end
+  end
 end
