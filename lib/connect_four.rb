@@ -104,10 +104,25 @@ class ConnectFour
     false
   end
 
-  def win_column
+  def win_row
+    previous_val = nil
+    count = 1
+    @board.board.each do |row|
+      row.each do |val|
+        if val == previous_val && %w[1 2].include?(val)
+          count += 1
+        else
+          count = 1
+        end
+        return true if count == 4
+
+        previous_val = val
+      end
+    end
+    false
   end
 
-  def win_row
+  def win_column
   end
 
   def win_diagonal
