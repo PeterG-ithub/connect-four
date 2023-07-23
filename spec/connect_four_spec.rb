@@ -133,6 +133,26 @@ describe ConnectFour do
     end
   end
 
+  describe '#valid_column' do
+    subject(:game_column) { described_class.new }
+    context 'when given a valid input, return the valid input' do
+      valid_column = 3
+      it 'should return [row, col]' do
+        results = game_column.valid_column(valid_column)
+        expect(results).to eq([5, 3])
+      end
+    end
+
+    # context 'when given nil from #check_column' do
+    #   it 'should return an error message until valid input' do
+    #     allow(game_column).to receive(:check_column).and_return(nil)
+    #     error_message = 'Column full! Please input in another column'
+    #     game_column.valid_column(3)
+    #     expect(game_column).to receive(:puts).with(error_message)
+    #   end
+    # end
+  end
+
   describe '#change_board' do
     subject(:game) { described_class.new }
     context 'when player input is 3' do
@@ -156,6 +176,4 @@ describe ConnectFour do
       end
     end
   end
-
-
 end

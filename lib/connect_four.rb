@@ -61,9 +61,19 @@ class ConnectFour
     nil
   end
 
+  def valid_column(col)
+    loop do
+      row = check_column(col)
+      return [row, col] if row
+
+      puts 'Column full! Please input in another column'
+      col = player_input
+    end
+  end
+
   def change_board(input)
-    row = check_column(input)
-    @board.board[row][input - 1] = whos_turn
+    row, col = valid_column(input)
+    @board.board[row][col - 1] = whos_turn
     display_board
     change_turn
   end
