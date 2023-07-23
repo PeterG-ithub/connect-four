@@ -123,6 +123,24 @@ class ConnectFour
   end
 
   def win_column
+    previous_val = nil
+    count = 1
+    arr = @board.board.transpose
+    arr.each do |row|
+      row.each_with_index do |val, idx|
+        next if idx == 6
+
+        if val == previous_val && %w[1 2].include?(val)
+          count += 1
+        else
+          count = 1
+        end
+        return true if count == 4
+
+        previous_val = val
+      end
+    end
+    false
   end
 
   def win_diagonal
