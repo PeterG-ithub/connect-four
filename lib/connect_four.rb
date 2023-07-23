@@ -144,6 +144,16 @@ class ConnectFour
   end
 
   def win_diagonal
+    return true if right_diagonal || left_diagonal
+
+    false
+  end
+  
+  def right_diagonal
+
+  end
+
+  def left_diagonal
   end
 end
 

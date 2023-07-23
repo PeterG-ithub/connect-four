@@ -259,21 +259,71 @@ describe ConnectFour do
     subject(:game_winner) { described_class.new }
     context 'method should determine if there is a four of a kind in a row' do
       before do
-        game_winner.board.board[1][1] = '1'
-        game_winner.board.board[2][2] = '1'
-        game_winner.board.board[3][3] = '1'
-        game_winner.board.board[4][4] = '1'
+        allow(game_winner).to receive(:right_diagonal).and_return(false)
+        allow(game_winner).to receive(:left_diagonal).and_return(false)
       end
+      it 'should return false' do
+        results = game_winner.win_diagonal
+        expect(results).to be(false)
+      end
+
       it 'should return true' do
-        game_winner.board.display_board
+        allow(game_winner).to receive(:right_diagonal).and_return(true)
         results = game_winner.win_diagonal
         expect(results).to be(true)
       end
 
       it 'should return false' do
-        game_winner.board.board[4][4] = '2'
-        game_winner.board.display_board
+        allow(game_winner).to receive(:left_diagonal).and_return(true)
         results = game_winner.win_diagonal
+        expect(results).to be(true)
+      end
+    end
+  end
+
+  describe '#right_diagonal' do
+    subject(:game_winner) { described_class.new }
+    context 'method should determine if there is a four of a kind in a column' do
+      before do
+        game_winner.board.board[0][6] = '2'
+        game_winner.board.board[1][5] = '2'
+        game_winner.board.board[2][4] = '2'
+        game_winner.board.board[3][3] = '2'
+      end
+      it 'should return true' do
+        game_winner.board.display_board
+        results = game_winner.right_diagonal
+        expect(results).to be(true)
+      end
+
+      it 'should return false' do
+        game_winner.board.board[0][6] = '1'
+        game_winner.board.display_board
+        results = game_winner.right_diagonal
+        expect(results).to be(false)
+      end
+    end
+  end
+
+  describe '#left_diagonal' do
+    subject(:game_winner) { described_class.new }
+    context 'method should determine if there is a four of a kind in a column' do
+      before do
+        game_winner.board.board[0][0] = '2'
+        game_winner.board.board[1][1] = '2'
+        game_winner.board.board[2][2] = '2'
+        game_winner.board.board[3][3] = '2'
+      end
+      it 'should return true' do
+        game_winner.board.display_board
+        results = game_winner.left_diagonal
+        expect(results).to be(true)
+      end
+
+      it 'should return false' do
+        game_winner.board.board[0][0] = '1'
+        game_winner.board.display_board
+        results = game_winner.left_diagonal
         expect(results).to be(false)
       end
     end
