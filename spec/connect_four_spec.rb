@@ -187,7 +187,7 @@ describe ConnectFour do
       end
       it 'should return false if not game over' do
         results = game_state.game_over?
-        expect(results).to be(true)
+        expect(results).to be(false)
       end
       it 'should return true if win_row is true' do
         allow(game_state).to receive(:win_row).and_return(true)
@@ -203,6 +203,78 @@ describe ConnectFour do
         allow(game_state).to receive(:win_diagonal).and_return(true)
         results = game_state.game_over?
         expect(results).to be(true)
+      end
+    end
+  end
+
+  describe '#win_row' do
+    subject(:game_winner) { described_class.new }
+    context 'method should determine if there is a four of a kind in a row' do
+      before do
+        game_winner.board.board[5][0] = '1'
+        game_winner.board.board[5][1] = '1'
+        game_winner.board.board[5][2] = '1'
+        game_winner.board.board[5][3] = '1'
+      end
+      it 'should return true' do
+        game_winner.board.display_board
+        results = game_winner.win_row
+        expect(results).to be(true)
+      end
+
+      it 'should return false' do
+        game_winner.board.board[5][3] = '2'
+        game_winner.board.display_board
+        results = game_winner.win_row
+        expect(results).to be(false)
+      end
+    end
+  end
+
+  describe '#win_column' do
+    subject(:game_winner) { described_class.new }
+    context 'method should determine if there is a four of a kind in a column' do
+      before do
+        game_winner.board.board[2][5] = '2'
+        game_winner.board.board[3][5] = '2'
+        game_winner.board.board[4][5] = '2'
+        game_winner.board.board[5][5] = '2'
+      end
+      it 'should return true' do
+        game_winner.board.display_board
+        results = game_winner.win_column
+        expect(results).to be(true)
+      end
+
+      it 'should return false' do
+        game_winner.board.board[5][5] = '1'
+        game_winner.board.display_board
+        results = game_winner.win_column
+        expect(results).to be(false)
+      end
+    end
+  end
+
+  describe '#win_diagonal' do
+    subject(:game_winner) { described_class.new }
+    context 'method should determine if there is a four of a kind in a row' do
+      before do
+        game_winner.board.board[1][1] = '1'
+        game_winner.board.board[2][2] = '1'
+        game_winner.board.board[3][3] = '1'
+        game_winner.board.board[4][4] = '1'
+      end
+      it 'should return true' do
+        game_winner.board.display_board
+        results = game_winner.win_diagonal
+        expect(results).to be(true)
+      end
+
+      it 'should return false' do
+        game_winner.board.board[4][4] = '2'
+        game_winner.board.display_board
+        results = game_winner.win_diagonal
+        expect(results).to be(false)
       end
     end
   end
