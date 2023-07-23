@@ -77,13 +77,13 @@ describe ConnectFour do
   describe '#change_turn' do
     subject(:game_turn) { described_class.new }
     context 'everytime this method is called, the players switch turn' do
-      xit 'changes turn from player 1 to player 2' do
+      it 'changes turn from player 1 to player 2' do
         last_turn = '1'
         current_turn = game_turn.change_turn(last_turn)
         expect(current_turn).to be('2')
       end
 
-      xit 'changes turn from player 2 to palyer 1' do
+      it 'changes turn from player 2 to palyer 1' do
         last_turn = '2'
         current_turn = game_turn.change_turn(last_turn)
         expect(current_turn).to be('1')
@@ -94,12 +94,12 @@ describe ConnectFour do
   describe '#whos_turn' do
     subject(:game_turn) { described_class.new }
     context 'when called, returns who\'s turn it is' do
-      xit 'returns player 1' do
+      it 'returns player 1' do
         current_turn = game_turn.whos_turn
         expect(current_turn).to be('1')
       end
 
-      xit 'returns player 2' do
+      it 'returns player 2' do
         game_turn.change_turn('player 1')
         current_turn = game_turn.whos_turn
         expect(current_turn).to be('2')
@@ -111,7 +111,7 @@ describe ConnectFour do
     subject(:game_column) { described_class.new }
     context 'check the availability of a given column' do
       player_input = 3
-      xit 'returns which row is good' do
+      it 'returns which row is good' do
         game_column.board.board.each_with_index do |row, idx|
           row[player_input] = '1' if idx > 2 && idx < 5
         end
@@ -119,7 +119,7 @@ describe ConnectFour do
         expect(results).to be(2)
       end
 
-      xit 'returns nil' do
+      it 'returns nil' do
         game_column.board.board.each_with_index do |row, idx|
           row[player_input] = '1' if idx > 2 && idx < 5
         end

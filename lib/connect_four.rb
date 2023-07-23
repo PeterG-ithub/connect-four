@@ -7,7 +7,7 @@ class ConnectFour
   def initialize(board = Board.new)
     @board = board
     @board.create_board
-    @player = %w[1 2]
+    @player_turn = '1'
   end
 
   def verify_input(input)
@@ -25,12 +25,22 @@ class ConnectFour
     end
   end
 
-  def change_turn(last_turn)
+  def change_turn(last_turn = whos_turn)
+    if last_turn == '2'
+      @player_turn = '1'
+      '1'
+    else
+      @player_turn = '2'
+      '2'
+    end
   end
 
-  def whos_turn; end
+  def whos_turn
+    @player_turn
+  end
 
-  def check_column; end
+  def check_column
+  end
 
   def game_board; end
 
