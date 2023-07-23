@@ -45,16 +45,14 @@ describe ConnectFour do
       end
     end
 
-    context 'when user input a invalid input then a valid input after' do
+    context 'when a user enters a valid input, it will return that input as integer' do
       before do
-        invalid_input = 'a'
         valid_input = '3'
-        allow(game_input).to receive(:gets).and_return(invalid_input, valid_input)
+        allow(game_input).to receive(:gets).and_return(valid_input)
       end
-      it 'matches the error one time and stops when valid input' do
-        error_message = 'Input error! Please enter a number between 1 and 7'
-        expect(game_input).to receive(:puts).with(error_message).once
-        game_input.player_input
+      it 'should return integer 3' do
+        results = game_input.player_input
+        expect(results).to be(3)
       end
     end
 
@@ -109,11 +107,17 @@ describe ConnectFour do
 
   describe '#check_column' do
     subject(:game_column) { described_class.new }
-    context 'check the availability of a given column' do
-      player_input = 0
+    context 'check the availability of a given column, column starts from 1 to 7' do
+      player_input = 7
+
+      it 'returns which row is good' do
+        results = game_column.check_column(player_input)
+        expect(results).to be(5)
+      end
+
       it 'returns which row is good' do
         game_column.board.board.each_with_index do |row, idx|
-          row[player_input] = '1' if idx > 2 && idx < 6
+          row[player_input - 1] = '1' if idx.between?(3, 5)
         end
         results = game_column.check_column(player_input)
         expect(results).to be(2)
@@ -121,7 +125,7 @@ describe ConnectFour do
 
       it 'returns nil' do
         game_column.board.board.each_with_index do |row, idx|
-          row[player_input] = '1' if idx < 6
+          row[player_input - 1] = '1' if idx < 6
         end
         results = game_column.check_column(player_input)
         expect(results).to be(nil)
@@ -133,19 +137,25 @@ describe ConnectFour do
     subject(:game) { described_class.new }
     context 'when player input is 3' do
       player_input = 3
-      it 'will change board in row 5, col 2 to 1' do
+      it 'will change board in row 6, col 3 to 1' do
         allow(game).to receive(:whos_turn).and_return('1')
         allow(game).to receive(:check_column).and_return(5)
         game.change_board(player_input)
-        expect(game.board.board[5][player_input]).to be('1')
+        expect(game.board.board[5][2]).to be('1')
       end
 
-      it 'will change board in row 5, col 2 to 2' do
+      it 'will change board in row 6, col 3 to 2' do
         allow(game).to receive(:whos_turn).and_return('2')
         allow(game).to receive(:check_column).and_return(5)
         game.change_board(player_input)
-        expect(game.board.board[5][player_input]).to be('2')
+        expect(game.board.board[5][2]).to be('2')
+      end
+
+      it 'will make sure the input is an integer' do
+        expect(player_input).to be_a Integer
       end
     end
   end
+
+
 end

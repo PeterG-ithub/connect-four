@@ -10,6 +10,14 @@ class ConnectFour
     @player_turn = '1'
   end
 
+  def play_game
+    introduction
+    loop do
+      input = player_input
+      change_board(input)
+    end
+  end
+
   def verify_input(input)
     return nil unless input.is_a? Integer
     return input if input.between?(1, 7)
@@ -19,7 +27,7 @@ class ConnectFour
     loop do
       player_input = gets.chomp
       input = verify_input(player_input.to_i)
-      break if input
+      return input if input
 
       puts 'Input error! Please enter a number between 1 and 7'
     end
@@ -42,7 +50,7 @@ class ConnectFour
   def check_column(input)
     idx = 0
     @board.board.reverse_each do |row|
-      if %w[1 2 3 4 5 6 7].include?(row[input])
+      if %w[1 2 3 4 5 6 7].include?(row[input - 1])
         idx += 1
         next
       end
@@ -55,6 +63,31 @@ class ConnectFour
 
   def change_board(input)
     row = check_column(input)
-    @board.board[row][input] = whos_turn
+    @board.board[row][input - 1] = whos_turn
+    display_board
+    change_turn
+  end
+
+  def introduction
+    puts 'Welcome to Connect Four'
+    puts 'The first player to Connect four numbers wins'
+    display_board
+    display_help
+    display_turn
+  end
+
+  def display_board
+    @board.display_board
+  end
+
+  def display_turn
+    puts "Player #{whos_turn}'s turn: "
+  end
+
+  def display_help
+    puts 'Input a number from 1 to 7'
   end
 end
+
+# connect_four = ConnectFour.new
+# connect_four.play_game
