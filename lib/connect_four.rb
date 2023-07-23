@@ -97,6 +97,21 @@ class ConnectFour
   def display_help
     puts 'Input a number from 1 to 7'
   end
+
+  def game_over?
+    return true if win_column || win_row || win_diagonal
+
+    false
+  end
+
+  def win_column
+  end
+
+  def win_row
+  end
+
+  def win_diagonal
+  end
 end
 
 # connect_four = ConnectFour.new

@@ -176,4 +176,34 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#game_over?' do
+    subject(:game_state) { described_class.new }
+    context 'method should determine if game is over' do
+      before do
+        allow(game_state).to receive(:win_row).and_return(false)
+        allow(game_state).to receive(:win_column).and_return(false)
+        allow(game_state).to receive(:win_diagonal).and_return(false)
+      end
+      it 'should return false if not game over' do
+        results = game_state.game_over?
+        expect(results).to be(true)
+      end
+      it 'should return true if win_row is true' do
+        allow(game_state).to receive(:win_row).and_return(true)
+        results = game_state.game_over?
+        expect(results).to be(true)
+      end
+      it 'should return true if win_column is true' do
+        allow(game_state).to receive(:win_column).and_return(true)
+        results = game_state.game_over?
+        expect(results).to be(true)
+      end
+      it 'should return true if win_diagonal is true' do
+        allow(game_state).to receive(:win_diagonal).and_return(true)
+        results = game_state.game_over?
+        expect(results).to be(true)
+      end
+    end
+  end
 end
