@@ -39,10 +39,22 @@ class ConnectFour
     @player_turn
   end
 
-  def check_column
+  def check_column(input)
+    idx = 0
+    @board.board.reverse_each do |row|
+      if %w[1 2 3 4 5 6 7].include?(row[input])
+        idx += 1
+        next
+      end
+      break
+    end
+    return (6 - idx) unless idx == 7
+
+    nil
   end
 
-  def game_board; end
-
-  def change_board(player_input); end
+  def change_board(input)
+    row = check_column(input)
+    @board.board[row][input] = whos_turn
+  end
 end

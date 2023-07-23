@@ -110,10 +110,10 @@ describe ConnectFour do
   describe '#check_column' do
     subject(:game_column) { described_class.new }
     context 'check the availability of a given column' do
-      player_input = 3
+      player_input = 0
       it 'returns which row is good' do
         game_column.board.board.each_with_index do |row, idx|
-          row[player_input] = '1' if idx > 2 && idx < 5
+          row[player_input] = '1' if idx > 2 && idx < 6
         end
         results = game_column.check_column(player_input)
         expect(results).to be(2)
@@ -121,7 +121,7 @@ describe ConnectFour do
 
       it 'returns nil' do
         game_column.board.board.each_with_index do |row, idx|
-          row[player_input] = '1' if idx > 2 && idx < 5
+          row[player_input] = '1' if idx < 6
         end
         results = game_column.check_column(player_input)
         expect(results).to be(nil)
@@ -133,14 +133,14 @@ describe ConnectFour do
     subject(:game) { described_class.new }
     context 'when player input is 3' do
       player_input = 3
-      xit 'will change board in row 5, col 2 to 1' do
+      it 'will change board in row 5, col 2 to 1' do
         allow(game).to receive(:whos_turn).and_return('1')
         allow(game).to receive(:check_column).and_return(5)
         game.change_board(player_input)
         expect(game.board.board[5][player_input]).to be('1')
       end
 
-      xit 'will change board in row 5, col 2 to 2' do
+      it 'will change board in row 5, col 2 to 2' do
         allow(game).to receive(:whos_turn).and_return('2')
         allow(game).to receive(:check_column).and_return(5)
         game.change_board(player_input)
