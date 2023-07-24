@@ -148,12 +148,31 @@ class ConnectFour
 
     false
   end
-  
-  def right_diagonal
 
+  def right_diagonal
+    @board.board.each_with_index do |row, row_idx|
+      next unless row_idx.between?(3, 5)
+
+      row.each_with_index do |val, col_idx|
+        next unless col_idx.between?(0, 3)
+        return true if %w[1 2].include?(val) && (1..3).all? { |i| val == @board.board[row_idx - i][col_idx + i] }
+      end
+    end
+
+    false
   end
 
   def left_diagonal
+    @board.board.each_with_index do |row, row_idx|
+      next unless row_idx.between?(3, 5)
+
+      row.each_with_index do |val, col_idx|
+        next unless col_idx.between?(3, 6)
+        return true if %w[1 2].include?(val) && (1..3).all? { |i| val == @board.board[row_idx - i][col_idx - i] }
+      end
+    end
+
+    false
   end
 end
 
