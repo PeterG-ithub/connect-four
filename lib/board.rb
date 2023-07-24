@@ -18,6 +18,6 @@ class Board
   end
 end
 
-board = Board.new
-board.create_board
-board.display_board
+# board = Board.new
+# board.create_board
+# board.display_board

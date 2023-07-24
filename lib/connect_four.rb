@@ -15,6 +15,10 @@ class ConnectFour
     loop do
       input = player_input
       change_board(input)
+      if game_over?
+        display_winner
+        return
+      end
     end
   end
 
@@ -96,6 +100,11 @@ class ConnectFour
 
   def display_help
     puts 'Input a number from 1 to 7'
+  end
+
+  def display_winner
+    change_turn
+    puts "Player #{@player_turn} Win! Congratulations!"
   end
 
   def game_over?
